@@ -42,28 +42,36 @@ public class QuizActivity extends AppCompatActivity {
         int idQuestion = perguntas[currentIndex].getTestoId();
         textViewId.setText(idQuestion);
     }
+    public void somaPonto (boolean soma){
+        int total =0;
+        if(soma){
+            total= total + 1;
+
+        }else{
+            total = total -1;
+        }
+        Toast.makeText(QuizActivity.this, "pontos:"+total, Toast.LENGTH_SHORT).show();
+    }
 
     private void checkAnswer(boolean userPressed) {
         boolean answerIsTrue = perguntas[currentIndex].isRespostaCerta();
 
-//        if (answerIsTrue == userPressed)
-//          Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
-//            System.out.print("verdade");
-//        else
-//           Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
-//            System.out.print("Falso");
+        if (answerIsTrue == userPressed) {
 
-        if (answerIsTrue== userPressed){
-            updateQuestion();
             Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
-        }else {
+            currentIndex =  (currentIndex + 1)% perguntas.length;
             updateQuestion();
+            somaPonto(true);
+        }
+        else {
+
             Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
+            currentIndex =  (currentIndex + 1)% perguntas.length;
+            updateQuestion();
+            somaPonto(false);
         }
 
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +83,7 @@ public class QuizActivity extends AppCompatActivity {
         nextButton = (Button) findViewById(R.id.nextbutton);
         backButton = (Button) findViewById(R.id.backbutton);
         textViewId = (TextView) findViewById(R.id.textview);
+        pontosViewId = (TextView) findViewById(R.id.pontosview);
 
         Collections.shuffle(Arrays.asList(perguntas));
 
