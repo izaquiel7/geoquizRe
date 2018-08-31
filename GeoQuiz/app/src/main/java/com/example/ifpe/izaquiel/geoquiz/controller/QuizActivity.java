@@ -8,8 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ifpe.izaquiel.geoquiz.R;
-import com.example.ifpe.izaquiel.geoquiz.model.Question;
+import com.example.ifpe.izaquiel.geoquiz.model.Pergunta;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
@@ -19,43 +21,49 @@ public class QuizActivity extends AppCompatActivity {
     private Button nextButton;
     private Button backButton;
     private TextView textViewId;
+    private TextView pontosViewId;
     private int currentIndex;
 
 
-
-    Question[] questions = new Question[]{
-            new Question(R.string.question1, false),
-            new Question(R.string.question2, false),
-            new Question(R.string.question3, true),
-            new Question(R.string.question4, true),
-            new Question(R.string.question5, true),
-            new Question(R.string.question6, true),
-            new Question(R.string.question7, false),
-            new Question(R.string.question8, true),
-            new Question(R.string.question9, true),
-            new Question(R.string.question10, false),
+    Pergunta[] perguntas = new Pergunta[]{
+            new Pergunta(R.string.question1, false),
+            new Pergunta(R.string.question2, false),
+            new Pergunta(R.string.question3, true),
+            new Pergunta(R.string.question4, true),
+            new Pergunta(R.string.question5, true),
+            new Pergunta(R.string.question6, true),
+            new Pergunta(R.string.question7, false),
+            new Pergunta(R.string.question8, true),
+            new Pergunta(R.string.question9, true),
+            new Pergunta(R.string.question10, false),
     };
 
-    private void updateQuestion(){
-        int idQuestion = questions[currentIndex].getTextId();
+    private void updateQuestion() {
+        int idQuestion = perguntas[currentIndex].getTestoId();
         textViewId.setText(idQuestion);
     }
 
-    private void checkAnswer(boolean userPressed){
-        boolean answerIsTrue = questions[currentIndex].isAnswerIsTrue();
+    private void checkAnswer(boolean userPressed) {
+        boolean answerIsTrue = perguntas[currentIndex].isRespostaCerta();
 
-        int messageId = (answerIsTrue == userPressed)?
-                R.string.t_correto:
-                R.string.t_incorreto;
+//        if (answerIsTrue == userPressed)
+//          Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
+//            System.out.print("verdade");
+//        else
+//           Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
+//            System.out.print("Falso");
 
-        if (answerIsTrue == userPressed){
-            currentIndex = (ran.nextInt(9) + 1) % questions.length;
+        if (answerIsTrue== userPressed){
+            updateQuestion();
+            Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
+        }else {
+            updateQuestion();
+            Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(QuizActivity.this, messageId, Toast.LENGTH_SHORT).show();
+
     }
 
-    Random ran = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +73,12 @@ public class QuizActivity extends AppCompatActivity {
         trueButton = (Button) findViewById(R.id.truebutton);
         falseButton = (Button) findViewById(R.id.falsebutton);
         nextButton = (Button) findViewById(R.id.nextbutton);
-        backButton = (Button)  findViewById(R.id.backbutton);
+        backButton = (Button) findViewById(R.id.backbutton);
         textViewId = (TextView) findViewById(R.id.textview);
 
-        int question = questions[currentIndex].getTextId();
+        Collections.shuffle(Arrays.asList(perguntas));
+
+        int question = perguntas[currentIndex].getTestoId();
         textViewId.setText(question);
 
 
@@ -77,21 +87,21 @@ public class QuizActivity extends AppCompatActivity {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               checkAnswer(true);
+                checkAnswer(true);
             }
         });
 
         falseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               checkAnswer(false);
+                checkAnswer(false);
             }
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentIndex = (ran.nextInt(9) + 1) % questions.length;
+                currentIndex =  (currentIndex + 1)% perguntas.length;
                 updateQuestion();
 
             }
@@ -100,8 +110,8 @@ public class QuizActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentIndex==0){
-                    currentIndex = questions.length;
+                if (currentIndex == 0) {
+                    currentIndex = perguntas.length;
                 }
                 currentIndex = currentIndex - 1;
 
@@ -113,7 +123,6 @@ public class QuizActivity extends AppCompatActivity {
 
         //**end onCreate()**//
     }
-
 
 
     //**Getters n Setters**//
@@ -150,14 +159,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-
     //**end getters e setters**//
 
     public int getCurrentIndex() {
         return currentIndex;
     }
 
-    public Question[] getQuestions() {
-        return questions;
+    public Pergunta[] getPerguntas() {
+        return perguntas;
     }
 }
