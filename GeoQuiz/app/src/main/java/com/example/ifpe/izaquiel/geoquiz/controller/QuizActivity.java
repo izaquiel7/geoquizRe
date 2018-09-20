@@ -41,14 +41,14 @@ public class QuizActivity extends AppCompatActivity {
     private void updateQuestion() {
         int idQuestion = perguntas[currentIndex].getTestoId();
         textViewId.setText(idQuestion);
-    }
+    } int total =0;
     public void somaPonto (boolean soma){
-        int total =0;
+
         if(soma){
-            total= total + 1;
+            total++;
 
         }else{
-            total = total -1;
+            total--;
         }
         Toast.makeText(QuizActivity.this, "pontos:"+total, Toast.LENGTH_SHORT).show();
     }
