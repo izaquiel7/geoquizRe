@@ -2,6 +2,7 @@ package com.example.ifpe.izaquiel.geoquiz.controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,11 @@ import java.util.Collections;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
+
+
+    private static final String tag = "QuizActivity";
+    private static final String i_chave = "index";
+    private static final int request_code_cheat = 0;
 
     private Button trueButton;
     private Button falseButton;
@@ -38,45 +44,18 @@ public class QuizActivity extends AppCompatActivity {
             new Pergunta(R.string.question10, false),
     };
 
-    private void updateQuestion() {
-        int idQuestion = perguntas[currentIndex].getTestoId();
-        textViewId.setText(idQuestion);
-    } int total =0;
-    public void somaPonto (boolean soma){
-
-        if(soma){
-            total++;
-
-        }else{
-            total--;
-        }
-        Toast.makeText(QuizActivity.this, "pontos:"+total, Toast.LENGTH_SHORT).show();
-    }
-
-    private void checkAnswer(boolean userPressed) {
-        boolean answerIsTrue = perguntas[currentIndex].isRespostaCerta();
-
-        if (answerIsTrue == userPressed) {
-
-            Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
-            currentIndex =  (currentIndex + 1)% perguntas.length;
-            updateQuestion();
-            somaPonto(true);
-        }
-        else {
-
-            Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
-            currentIndex =  (currentIndex + 1)% perguntas.length;
-            updateQuestion();
-            somaPonto(false);
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(tag, "Metodo o create() chamado");
+
+        savedInstanceState.putInt(i_chave, currentIndex);
         setContentView(R.layout.activity_quiz);
+
+        if(savedInstanceState != null) {
+            currentIndex = savedInstanceState.getInt(i_chave, 0);
+        }
 
         trueButton = (Button) findViewById(R.id.truebutton);
         falseButton = (Button) findViewById(R.id.falsebutton);
@@ -133,6 +112,82 @@ public class QuizActivity extends AppCompatActivity {
         //**end onCreate()**//
     }
 
+    private void updateQuestion() {
+        int idQuestion = perguntas[currentIndex].getTestoId();
+        textViewId.setText(idQuestion);
+    }
+
+    int total =0;
+    public void somaPonto (boolean soma){
+
+        if(soma){
+            total++;
+
+        }else{
+            total--;
+        }
+        Toast.makeText(QuizActivity.this, "pontos:"+total, Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkAnswer(boolean userPressed) {
+        boolean answerIsTrue = perguntas[currentIndex].isRespostaCerta();
+
+        if (answerIsTrue == userPressed) {
+
+            Toast.makeText(QuizActivity.this, R.string.t_correto, Toast.LENGTH_SHORT).show();
+            currentIndex =  (currentIndex + 1)% perguntas.length;
+            updateQuestion();
+            somaPonto(true);
+        }
+        else {
+
+            Toast.makeText(QuizActivity.this, R.string.t_incorreto, Toast.LENGTH_SHORT).show();
+            currentIndex =  (currentIndex + 1)% perguntas.length;
+            updateQuestion();
+            somaPonto(false);
+        }
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        Log.d(tag, "esse negocio chamou onStart()");
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Log.d(tag, "esse negocio chamou onResume()");
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        Log.d(tag, "esse negocio chamou onPause()");
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        Log.i(tag, "salvando a instancia do estado.");
+        savedInstanceState.putInt(i_chave, currentIndex);
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        Log.d(tag, "esse negocio chamou onStop()");
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        Log.d(tag, "esse negocio chamou onDestroy()");
+    }
 
     //**Getters n Setters**//
     public Button getTrueButton() {
