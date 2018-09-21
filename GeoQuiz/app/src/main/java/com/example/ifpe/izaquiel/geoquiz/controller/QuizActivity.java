@@ -50,7 +50,6 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(tag, "Metodo o create() chamado");
 
-        savedInstanceState.putInt(i_chave, currentIndex);
         setContentView(R.layout.activity_quiz);
 
         if(savedInstanceState != null) {
@@ -177,6 +176,8 @@ public class QuizActivity extends AppCompatActivity {
     }
     @Override
     protected void onStop(){
+
+
         super.onStop();
 
         Log.d(tag, "esse negocio chamou onStop()");
