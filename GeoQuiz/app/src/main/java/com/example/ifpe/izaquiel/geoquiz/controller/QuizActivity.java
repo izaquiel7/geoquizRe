@@ -1,5 +1,6 @@
 package com.example.ifpe.izaquiel.geoquiz.controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView textViewId;
     private TextView pontosViewId;
     private int currentIndex;
+    private Button cheatButton;
 
 
     Pergunta[] perguntas = new Pergunta[]{
@@ -62,6 +64,7 @@ public class QuizActivity extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.backbutton);
         textViewId = (TextView) findViewById(R.id.textview);
         pontosViewId = (TextView) findViewById(R.id.pontosview);
+        cheatButton = (Button)  findViewById(R.id.cheat_button);
 
         Collections.shuffle(Arrays.asList(perguntas));
 
@@ -103,6 +106,14 @@ public class QuizActivity extends AppCompatActivity {
                 currentIndex = currentIndex - 1;
 
                 updateQuestion();
+            }
+        });
+
+        cheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QuizActivity.this, CheatActivity.class);//
+                // startCheatActivity(intent);
             }
         });
 
