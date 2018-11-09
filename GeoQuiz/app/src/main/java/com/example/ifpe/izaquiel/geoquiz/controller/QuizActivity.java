@@ -14,7 +14,6 @@ import com.example.ifpe.izaquiel.geoquiz.model.Pergunta;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -68,7 +67,7 @@ public class QuizActivity extends AppCompatActivity {
 
         Collections.shuffle(Arrays.asList(perguntas));
 
-        int question = perguntas[currentIndex].getTestoId();
+        int question = perguntas[currentIndex].getTextId();
         textViewId.setText(question);
 
 
@@ -112,8 +111,11 @@ public class QuizActivity extends AppCompatActivity {
         cheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(QuizActivity.this, CheatActivity.class);//
-                // startCheatActivity(intent);
+                boolean answerIsTrue = perguntas[currentIndex].isAnswerTrue();
+
+                Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+
+                startCheatActivity(intent);
             }
         });
 
@@ -122,8 +124,11 @@ public class QuizActivity extends AppCompatActivity {
         //**end onCreate()**//
     }
 
+    private void startCheatActivity(Intent intent) {
+    }
+
     private void updateQuestion() {
-        int idQuestion = perguntas[currentIndex].getTestoId();
+        int idQuestion = perguntas[currentIndex].getTextId();
         textViewId.setText(idQuestion);
     }
 
@@ -140,7 +145,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void checkAnswer(boolean userPressed) {
-        boolean answerIsTrue = perguntas[currentIndex].isRespostaCerta();
+        boolean answerIsTrue = perguntas[currentIndex].isAnswerTrue();
 
         if (answerIsTrue == userPressed) {
 

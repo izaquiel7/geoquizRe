@@ -2,27 +2,27 @@ package com.example.ifpe.izaquiel.geoquiz.model;
 
 public class Pergunta {
 
-    private int testoId;
-    private boolean respostaCerta;
+    private int textId;
+    private boolean answerTrue;
 
-    public Pergunta(int testoId, boolean respostaCerta){
-        this.testoId = testoId;
-        this.respostaCerta = respostaCerta;
+    public Pergunta(int textId, boolean answerTrue){
+        this.textId = textId;
+        this.answerTrue = answerTrue;
     }
 
-    public int getTestoId() {
-        return testoId;
+    public int getTextId() {
+        return textId;
     }
 
-    public void setTestoId(int testoId) {
-        this.testoId = testoId;
+    public void setTextId(int textId) {
+        this.textId = textId;
     }
 
-    public boolean isRespostaCerta() {
-        return respostaCerta;
+    public boolean isAnswerTrue() {
+        return answerTrue;
     }
 
-    public void setRespostaCerta(boolean respostaCerta) {
-        this.respostaCerta = respostaCerta;
+    public void setAnswerTrue(boolean answerTrue) {
+        this.answerTrue = answerTrue;
     }
 }
